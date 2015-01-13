@@ -3,13 +3,21 @@ import router from 'angular-ui-router';
 
 import d1 from 'app/date/directives/currentDate';
 import d2 from 'app/date/directives/greeting';
+import d3 from 'app/backend/directives/randomJoke';
+
+import dateService from 'app/date/services/dateService';
+import { setHttp, setQ } from 'app/backend/services/restBackend';
+import Joke from 'app/backend/models/Joke';
 
 
 angular.module('App', [
   'ui.router',
-  'App.date'
+  'App.date',
+  'App.backend'
 ])
-  .config(function ($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider, $sceProvider) {
+
+    $sceProvider.enabled(false);
 
     $urlRouterProvider.otherwise("/home");
     //
@@ -21,4 +29,8 @@ angular.module('App', [
       });
 
 
+  })
+.run(function ($http, $q) {
+    setHttp($http);
+    setQ($q);
   });
